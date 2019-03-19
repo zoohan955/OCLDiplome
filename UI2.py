@@ -9,13 +9,26 @@ import sys
 import mainNEW as mn
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
+
+
+
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(605, 600)
-        self.Results = QtWidgets.QLabel(Form)
-        self.Results.setGeometry(QtCore.QRect(210, 10, 511, 231))
-        self.Results.setObjectName("Results")
+        Form.resize(898, 490)
+        self.DATA=self.DATA=''
+        self.Results=QtWidgets.QLabel(Form)
+        self.Results.setGeometry(QtCore.QRect(180,40,701,401))
+        #self.Results_Label.setObjectName("Results")
+
+
+        #self.Results=QtWidgets.QLabel(Form)
+        #self.Results.setGeometry(QtCore.QRect(180,50,691,261))
+        
+        
+        #self.Results = QtWidgets.QLabel(Form)
+        #self.Results.setGeometry(QtCore.QRect(210, 10, 511, 231))
         
         self.pushButton = QtWidgets.QPushButton(Form)
         self.pushButton.setGeometry(QtCore.QRect(50, 50, 75, 23))
@@ -30,6 +43,11 @@ class Ui_Form(object):
         self.pushButton_3 = QtWidgets.QPushButton(Form)
         self.pushButton_3.setGeometry(QtCore.QRect(50, 110, 75, 23))
         self.pushButton_3.setObjectName("pushButton_3")
+
+        self.Save_ResulsBtn=QtWidgets.QPushButton(Form)
+        self.Save_ResulsBtn.setGeometry(QtCore.QRect(350,460,91,23))
+        self.Save_ResulsBtn.setObjectName("Save_ResulsBtn")
+        self.Save_ResulsBtn.clicked.connect(self.SAVING)
 
         self.Drawing_Plots = QtWidgets.QPushButton(Form)
         self.Drawing_Plots.setGeometry(QtCore.QRect(40, 250, 75, 23))
@@ -59,6 +77,7 @@ class Ui_Form(object):
         self.Remove_btn = QtWidgets.QPushButton(Form)
         self.Remove_btn.setGeometry(QtCore.QRect(260, 460, 91, 23))
         self.Remove_btn.setObjectName("Remove_btn")
+        self.Remove_btn.clicked.connect(self.Results.clear)
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -66,7 +85,7 @@ class Ui_Form(object):
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
-        self.Results.setText(_translate("Form", "Results"))
+        #self.Results.setText(_translate("Form", "Results"))
         self.pushButton.setText(_translate("Form", "Pearson"))
         self.pushButton_2.setText(_translate("Form", "Spirmen"))
         self.pushButton_3.setText(_translate("Form", "1-way"))
@@ -75,6 +94,7 @@ class Ui_Form(object):
         self.label_2.setText(_translate("Form", "Plots"))
         self.Load_Btn.setText(_translate("Form", "Load_DATA"))
         self.Remove_btn.setText(_translate("Form", "Remove_Arrays"))
+       # self.Save_ResulsBtn(_translate("Form","Save_RESULTS"))
 
     def btn_SPIRMEN(self):
         #self.Results.setText(str(mn.Spirmen(mn.X,mn.Y)))
@@ -84,9 +104,19 @@ class Ui_Form(object):
 
     
     def Label_OUTPUT(self,f):
-        self.Results.setText(self.Results.text()+'\n'+str(f))
-    
+        if(self.DATA==""):
+            self.DATA=str(f)
+        else:
+            self.DATA+='\n'+str(f)
+        self.Results.setText(self.DATA)
 
+
+    def btn_REMOVE_ARRAYS(self):
+        self.Results.clear()
+    
+    def SAVING(self):
+        f=open("out.int","w")
+        f.write(self.DATA)
 
 
 
