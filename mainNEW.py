@@ -32,6 +32,10 @@ def Graphical(X,Y):
     plt.hist(data,bins)
     plt.subplot(2,2,2)
     plt.boxplot(data)
+    plt.subplot(2,2,3)
+    plt.scatter(X,Y)
+    plt.subplot(2,2,4)
+    plt.plot(data)
     
     plt.show() 
 #---------------------------------------------------------

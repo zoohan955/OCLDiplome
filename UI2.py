@@ -8,6 +8,7 @@
 import sys
 import mainNEW as mn
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import *
 
 
 
@@ -20,7 +21,7 @@ class Ui_Form(object):
         self.DATA=self.DATA=''
         self.Results=QtWidgets.QLabel(Form)
         self.Results.setGeometry(QtCore.QRect(180,40,701,401))
-       
+        self.textEdit = QtWidgets.QTextEdit()
 
         
         self.pushButton = QtWidgets.QPushButton(Form)
@@ -74,6 +75,7 @@ class Ui_Form(object):
         self.Load_Btn = QtWidgets.QPushButton(Form)
         self.Load_Btn.setGeometry(QtCore.QRect(180, 460, 75, 23))
         self.Load_Btn.setObjectName("Load_Btn")
+        self.Load_Btn.clicked.connect(self.showDialog)
         self.Remove_btn = QtWidgets.QPushButton(Form)
         self.Remove_btn.setGeometry(QtCore.QRect(260, 460, 91, 23))
         self.Remove_btn.setObjectName("Remove_btn")
@@ -97,6 +99,18 @@ class Ui_Form(object):
         self.Remove_btn.setText(_translate("Form", "Remove_Arrays"))
         self.Save_ResulsBtn.setText(_translate("Form","Save_RESULTS"))
 
+    
+    def showDialog(self):
+
+        fname = QtWidgets.QFileDialog.getOpenFileName()
+
+        f = open(fname, 'r')
+
+        with f:
+            data = f.read()
+            self.textEdit.setText(data)
+
+
     def btn_SPIRMEN(self):
         #self.Results.setText(str(mn.Spirmen(mn.X,mn.Y)))
         self.Label_OUTPUT(mn.Spirmen(mn.X,mn.Y))
@@ -107,7 +121,7 @@ class Ui_Form(object):
         self.Label_OUTPUT(mn.OneWayTest(mn.X,mn.Y))
     
     def btn_KRUSKAL(self):
-        self.Label_OUTPUT(mn.KRUSKAL(mn.X,mn.Y))
+        self.Label_OUTPUT(mn.KSSYMBOL(mn.X,mn.Y))
 
     
     def Label_OUTPUT(self,f):
