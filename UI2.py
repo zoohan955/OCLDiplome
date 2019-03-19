@@ -21,7 +21,7 @@ class Ui_Form(object):
         self.DATA=self.DATA=''
         self.Results=QtWidgets.QLabel(Form)
         self.Results.setGeometry(QtCore.QRect(180,40,701,401))
-        self.textEdit = QtWidgets.QTextEdit()
+        
 
         
         self.pushButton = QtWidgets.QPushButton(Form)
@@ -108,7 +108,7 @@ class Ui_Form(object):
 
         with f:
             data = f.read()
-            self.textEdit.setText(data)
+            self.Results.setText(str(data))
 
 
     def btn_SPIRMEN(self):

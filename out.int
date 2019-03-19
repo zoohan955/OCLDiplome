@@ -1,4 +1,4 @@
-Ks_2sampResult(statistic=0.8638, pvalue=0.0)
-F_onewayResult(statistic=344371.70185587305, pvalue=0.0)
-SpearmanrResult(correlation=-0.0017938006889033802, pvalue=0.5705491310872655)
-PearsonResult(correlation=-0.002571652209338767, pvalue=0.4160925008245644)
+PearsonResult(correlation=0.0025757804923629327, pvalue=0.41534455406997783)
+SpearmanrResult(correlation=0.002812988441477299, pvalue=0.37371525052708865)
+F_onewayResult(statistic=344959.5549695291, pvalue=0.0)
+Ks_2sampResult(statistic=0.86488, pvalue=0.0)
