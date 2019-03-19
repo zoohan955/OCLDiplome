@@ -20,15 +20,8 @@ class Ui_Form(object):
         self.DATA=self.DATA=''
         self.Results=QtWidgets.QLabel(Form)
         self.Results.setGeometry(QtCore.QRect(180,40,701,401))
-        #self.Results_Label.setObjectName("Results")
+       
 
-
-        #self.Results=QtWidgets.QLabel(Form)
-        #self.Results.setGeometry(QtCore.QRect(180,50,691,261))
-        
-        
-        #self.Results = QtWidgets.QLabel(Form)
-        #self.Results.setGeometry(QtCore.QRect(210, 10, 511, 231))
         
         self.pushButton = QtWidgets.QPushButton(Form)
         self.pushButton.setGeometry(QtCore.QRect(50, 50, 75, 23))
@@ -43,10 +36,17 @@ class Ui_Form(object):
         self.pushButton_3 = QtWidgets.QPushButton(Form)
         self.pushButton_3.setGeometry(QtCore.QRect(50, 110, 75, 23))
         self.pushButton_3.setObjectName("pushButton_3")
+        self.pushButton_3.clicked.connect(self.btn_One_Way)
+
+        self.KRUSKAL=QtWidgets.QPushButton(Form)
+        self.KRUSKAL.setGeometry(QtCore.QRect(50,140,75,23))
+        self.KRUSKAL.setObjectName("KRUSKAL")
+        self.KRUSKAL.clicked.connect(self.btn_KRUSKAL)
+
 
         self.Save_ResulsBtn=QtWidgets.QPushButton(Form)
         self.Save_ResulsBtn.setGeometry(QtCore.QRect(350,460,91,23))
-        self.Save_ResulsBtn.setObjectName("Save_ResulsBtn")
+        self.Save_ResulsBtn.setObjectName("Save_Results")
         self.Save_ResulsBtn.clicked.connect(self.SAVING)
 
         self.Drawing_Plots = QtWidgets.QPushButton(Form)
@@ -89,18 +89,25 @@ class Ui_Form(object):
         self.pushButton.setText(_translate("Form", "Pearson"))
         self.pushButton_2.setText(_translate("Form", "Spirmen"))
         self.pushButton_3.setText(_translate("Form", "1-way"))
+        self.KRUSKAL.setText(_translate("Form","KS-Test"))
         self.Drawing_Plots.setText(_translate("Form", "Draw_Plots"))
         self.label.setText(_translate("Form", "Normal Check"))
         self.label_2.setText(_translate("Form", "Plots"))
         self.Load_Btn.setText(_translate("Form", "Load_DATA"))
         self.Remove_btn.setText(_translate("Form", "Remove_Arrays"))
-       # self.Save_ResulsBtn(_translate("Form","Save_RESULTS"))
+        self.Save_ResulsBtn.setText(_translate("Form","Save_RESULTS"))
 
     def btn_SPIRMEN(self):
         #self.Results.setText(str(mn.Spirmen(mn.X,mn.Y)))
         self.Label_OUTPUT(mn.Spirmen(mn.X,mn.Y))
     def btn_PEARSON(self):
         self.Label_OUTPUT(mn.Pirson(mn.X,mn.Y))
+
+    def btn_One_Way(self):
+        self.Label_OUTPUT(mn.OneWayTest(mn.X,mn.Y))
+    
+    def btn_KRUSKAL(self):
+        self.Label_OUTPUT(mn.KRUSKAL(mn.X,mn.Y))
 
     
     def Label_OUTPUT(self,f):

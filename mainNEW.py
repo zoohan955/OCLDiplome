@@ -3,11 +3,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import scipy.stats as st
 import scipy
-
-#import seaborn
 import math
-from tkinter import Tk,END,Frame,BOTH,Button,scrolledtext, ttk
-from tkinter import *
+
 
 
 
@@ -20,11 +17,12 @@ def AVERAGE(a,n):
     return a/n
 
 mu=0.5
-sigma=0.01
+sigma=0.2
+mu1=0.1
+sigma1=0.08 
 
-X= np.random.normal(mu,sigma,1000000)
-
-Y= np.random.normal(mu,sigma,1000000)
+X= np.random.normal(mu,sigma,100000)
+Y= np.random.normal(mu1,sigma1,100000)
 #----------------------PLOTTING---------------------------
 def Graphical(X,Y):
     data=np.concatenate((X,Y))
@@ -53,12 +51,8 @@ def Pearson(X,Y):
     Rxy=0
     for i in range(len(X)):
         dX=X[i]-Mx
-        #print("dX",i,"=",dX)
         sumpowX+=math.pow(dX,2)
-        #print("d2X",i,"=",math.pow(dX,2))
         dY=Y[i]-My
-        #print("dY",i,"=",dY,2)
-        #print("d2Y",i,"=",math.pow(dY,2))
         sumpowY+=math.pow(dY,2)
         DxDy+=dX*dY
        
@@ -94,11 +88,13 @@ def Graphics(event):
     Graphical(X,Y)
 
 def OneWayTest(X,Y):
-    print(scipy.stats.f_oneway(X,Y))
+    return(scipy.stats.f_oneway(X,Y))
 
 def OneWayTestGraph(event):
     OneWayTest(X,Y)
 
+def KSSYMBOL(X,Y):
+   return(scipy.stats.ks_2samp(X,Y))
 
 def Graph():
     Graphical(X,Y)
