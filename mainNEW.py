@@ -160,6 +160,9 @@ def digression(X,L,Average):
 
 Xx=[]
 Yy=[]
+#def readData(X):
+    
+
 
 '''
 with open("x.txt") as file:
@@ -176,20 +179,7 @@ with open("y.txt") as f:
     for line in f:
         Xx.append([float(x) for x in line.split()])
 '''
-#print(Xx)
 
-
-
-   
-  
-
-     
-#Pearson(X,Y)
-#Spirmen(X,Y)
-#PearsonInt(X,Y)
-#Graphical(X,Y) 
-
-#Spirmen()
 
 '''
 def dataWriting():

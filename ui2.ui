@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>605</width>
+    <width>898</width>
     <height>490</height>
    </rect>
   </property>
@@ -16,10 +16,10 @@
   <widget class="QLabel" name="Results">
    <property name="geometry">
     <rect>
-     <x>210</x>
-     <y>10</y>
-     <width>311</width>
-     <height>231</height>
+     <x>180</x>
+     <y>0</y>
+     <width>41</width>
+     <height>61</height>
     </rect>
    </property>
    <property name="text">
@@ -151,6 +151,45 @@
    </property>
    <property name="text">
     <string>Remove_Arrays</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>40</y>
+     <width>701</width>
+     <height>401</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="Load_Btn_2">
+   <property name="geometry">
+    <rect>
+     <x>350</x>
+     <y>460</y>
+     <width>91</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Save_RESULTS</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_4">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>140</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>KS-test</string>
    </property>
   </widget>
  </widget>
