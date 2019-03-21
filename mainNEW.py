@@ -4,7 +4,9 @@ import numpy as np
 import scipy.stats as st
 import scipy
 import math
-
+import statistics
+import string
+import re
 
 
 
@@ -101,6 +103,7 @@ def KSSYMBOL(X,Y):
    return(scipy.stats.ks_2samp(X,Y))
 
 def Graph():
+
     Graphical(X,Y)
 
         
@@ -110,6 +113,10 @@ def Graph():
 
 
 
+
+def med(X):
+    return("Median of data-set is : % s "
+        % (statistics.median(X))) 
 
 
 
@@ -161,25 +168,65 @@ def digression(X,L,Average):
 Xx=[]
 Yy=[]
 #def readData(X):
-    
+col_number=5
+file_name='20060822_0-0.int'
+file_name2='ik060822.703'
+processedArr_1=[]
+reducedArr=[] 
+processedArr_2=[] 
+def dataProcess():
+     with open(file_name2) as file:
+        #DATA=file.read().split()
+        RAW_DATA=file.read()
 
+        rows = RAW_DATA.split('\n')
+        #print(rows)
+        DATA=[]
+        for row in rows:
+            #rowWithSpaces=row.replace('\t',' ')
+            COL_DATA=re.compile("[\t\s]+",re.I|re.M).split(row)
+            DATA.append(COL_DATA)
+        #print(DATA[0][1])
+        
 
+        Seconds_1_Trimmed=DATA[0][1].strip()
+        #print(Seconds_1_Trimmed)
+        Seconds_1=int(Seconds_1_Trimmed.split(':')[2])
+        #Seconds_1=int(DATA[0][1].split(':')[2])
+        Seconds_2_Trimmed=DATA[1][1].strip()
+        Seconds_2=int(Seconds_2_Trimmed.split(':')[2])
+        step=Seconds_2-Seconds_1
+        for i in range(0,len(DATA)-1,step):
+            processedArr_1=DATA[i][col_number]
+            reducedArr.append(float(processedArr_1))
+      
+            
+            
+
+           
+            #value=[]
+       # print(cols[0])
+#print(reducedArr)
+dataProcess()   
+print(reducedArr)
+
+#print(Pirson(reducedArr,reducedArr))
 '''
 with open("x.txt") as file:
     Xx = [row.strip() for row in file]
-
-with open("y.txt") as file:
-    Yy = [row.strip() for row in file]'''
 '''
-with open("x.txt") as f:
+#with open("Y.txt") as file:
+   # Yy = [row.strip() for row in file]
+
+'''
+with open("X.txt") as f:
     for line in f:
         Xx.append([float(x) for x in line.split()])
 
 with open("y.txt") as f:
     for line in f:
-        Xx.append([float(x) for x in line.split()])
-'''
 
+'''
 
 '''
 def dataWriting():
