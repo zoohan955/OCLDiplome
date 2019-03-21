@@ -169,13 +169,15 @@ Xx=[]
 Yy=[]
 #def readData(X):
 col_number=5
-file_name='20060822_0-0.int'
+file_name1='20060822_0-0.int'
 file_name2='ik060822.703'
 processedArr_1=[]
-reducedArr=[] 
+
 processedArr_2=[] 
-def dataProcess():
-     with open(file_name2) as file:
+def dataProcess(file_name):
+     reducedArr=[] 
+     print(file_name)
+     with open(file_name) as file:
         #DATA=file.read().split()
         RAW_DATA=file.read()
 
@@ -201,16 +203,19 @@ def dataProcess():
             reducedArr.append(float(processedArr_1))
       
             
-            
-
+        #print(reducedArr)   
+        return(reducedArr)
            
             #value=[]
        # print(cols[0])
 #print(reducedArr)
-dataProcess()   
-print(reducedArr)
 
-#print(Pirson(reducedArr,reducedArr))
+
+X11=dataProcess(file_name1) 
+Y11=dataProcess(file_name2)  
+#print(reducedArr)
+
+print(Y11,X11)
 '''
 with open("x.txt") as file:
     Xx = [row.strip() for row in file]
