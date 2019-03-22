@@ -68,8 +68,8 @@
   <widget class="QPushButton" name="Drawing_Plots">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>250</y>
+     <x>50</x>
+     <y>270</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -190,6 +190,19 @@
    </property>
    <property name="text">
     <string>KS-test</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="Median_Btn">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>240</y>
+     <width>91</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>FindMedian</string>
    </property>
   </widget>
  </widget>
