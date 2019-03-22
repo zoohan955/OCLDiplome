@@ -51,9 +51,14 @@ class Ui_Form(object):
         self.Save_ResulsBtn.clicked.connect(self.SAVING)
 
         self.Drawing_Plots = QtWidgets.QPushButton(Form)
-        self.Drawing_Plots.setGeometry(QtCore.QRect(40, 250, 75, 23))
+        self.Drawing_Plots.setGeometry(QtCore.QRect(50, 270, 75, 23))
         self.Drawing_Plots.setObjectName("Drawing_Plots")
         self.Drawing_Plots.clicked.connect(mn.Graph)
+
+        self.Median_Btn=QtWidgets.QPushButton(Form)
+        self.Median_Btn.setGeometry(QtCore.QRect(40,240,91,23))
+        self.Median_Btn.setObjectName("Median_Btn")
+        self.Median_Btn.clicked.connect(self.median_Output)
 
         self.line = QtWidgets.QFrame(Form)
         self.line.setGeometry(QtCore.QRect(163, 0, 20, 491))
@@ -123,7 +128,11 @@ class Ui_Form(object):
     def btn_KRUSKAL(self):
         self.Label_OUTPUT(mn.KSSYMBOL(mn.X,mn.Y))
 
-    
+    def median_Output(self):
+        self.Label_OUTPUT(mn.med())
+
+
+
     def Label_OUTPUT(self,f):
         if(self.DATA==""):
             self.DATA=str(f)

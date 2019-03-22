@@ -23,8 +23,8 @@ sigma=0.2
 mu1=0.1
 sigma1=0.08 
 
-X= np.random.normal(mu,sigma,100000)
-Y= np.random.normal(mu1,sigma1,100000)
+#X= np.random.normal(mu,sigma,100000)
+#Y= np.random.normal(mu1,sigma1,100000)
 #----------------------PLOTTING---------------------------
 def Graphical(X,Y):
     data=np.concatenate((X,Y))
@@ -114,13 +114,9 @@ def Graph():
 
 
 
-def med(X):
+def med():
     return("Median of data-set is : % s "
         % (statistics.median(X))) 
-
-
-
-
 
 
 def randomNumbers(a):
@@ -168,54 +164,106 @@ def digression(X,L,Average):
 Xx=[]
 Yy=[]
 #def readData(X):
-col_number=5
+col_number=3
+col_number2=5
 file_name1='20060822_0-0.int'
 file_name2='ik060822.703'
 processedArr_1=[]
 
 processedArr_2=[] 
+
+
+
+
 def dataProcess(file_name):
      reducedArr=[] 
      print(file_name)
      with open(file_name) as file:
-        #DATA=file.read().split()
         RAW_DATA=file.read()
 
         rows = RAW_DATA.split('\n')
-        #print(rows)
         DATA=[]
         for row in rows:
-            #rowWithSpaces=row.replace('\t',' ')
             COL_DATA=re.compile("[\t\s]+",re.I|re.M).split(row)
             DATA.append(COL_DATA)
-        #print(DATA[0][1])
         
 
         Seconds_1_Trimmed=DATA[0][1].strip()
-        #print(Seconds_1_Trimmed)
         Seconds_1=int(Seconds_1_Trimmed.split(':')[2])
-        #Seconds_1=int(DATA[0][1].split(':')[2])
         Seconds_2_Trimmed=DATA[1][1].strip()
         Seconds_2=int(Seconds_2_Trimmed.split(':')[2])
         step=Seconds_2-Seconds_1
+        '''
         for i in range(0,len(DATA)-1,step):
             processedArr_1=DATA[i][col_number]
             reducedArr.append(float(processedArr_1))
-      
-            
-        #print(reducedArr)   
-        return(reducedArr)
+      '''
+     
+        return{'step':step,'DATA':DATA}
            
-            #value=[]
-       # print(cols[0])
+
+
+
+X=[]
+Y=[]
+
+def reduceData(file_name1,file_name2):
+    data1=dataProcess(file_name1)
+    data2=dataProcess(file_name2)
+    print(type(data1['step']))
+    step1=data1['step']
+    step2=data2['step']
+    maxStep=max(step1,step2)
+    print(len(data1['DATA'])-1)
+    print(maxStep/step1)
+    
+
+    global X
+    X=[]
+    for i in range(0,len(data1['DATA'])-1,int(maxStep/step1)):
+        el=data1['DATA'][i][getIndexFromFile(file_name1)]
+        X.append(float(el))
+        
+    global Y
+    Y=[]
+    for i in range(0,len(data2['DATA'])-1,int(maxStep/step2)):
+        el=data2['DATA'][i][getIndexFromFile(file_name2)]
+        Y.append(float(el))
+
+def extensions(ext):
+    return{
+        'int':3,
+        '703':5,
+    }[ext]
+
+
+def getIndexFromFile(file_name):
+    F=file_name.split('.')
+    if len(F)==0:
+        raise TypeError
+    ext=F[-1]
+    return(extensions(ext))
+
+
+reduceData(file_name1,file_name2)
+print(len(X),len(Y))
+#X11=dataProcess(file_name1) 
+#Y11=dataProcess(file_name2)  
 #print(reducedArr)
 
 
-X11=dataProcess(file_name1) 
-Y11=dataProcess(file_name2)  
-#print(reducedArr)
 
-print(Y11,X11)
+
+
+
+
+#print(X)
+#Y=dataProcess2(file_name2)
+#print(len(X))
+#print(len(Y))
+#print(Y11,X11)
+#med(X11)
+
 '''
 with open("x.txt") as file:
     Xx = [row.strip() for row in file]
