@@ -96,6 +96,7 @@ class Ui_Form(object):
         self.pushButton.setText(_translate("Form", "Pearson"))
         self.pushButton_2.setText(_translate("Form", "Spirmen"))
         self.pushButton_3.setText(_translate("Form", "1-way"))
+        self.Median_Btn.setText(_translate("Form","Median"))
         self.KRUSKAL.setText(_translate("Form","KS-Test"))
         self.Drawing_Plots.setText(_translate("Form", "Draw_Plots"))
         self.label.setText(_translate("Form", "Normal Check"))

@@ -52,7 +52,6 @@ def Pearson(X,Y):
     dX=[]
     sumpowX=0
     sumpowY=0
-    S=0
     DxDy=0
     Rxy=0
     for i in range(len(X)):
