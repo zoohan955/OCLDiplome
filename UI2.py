@@ -105,15 +105,12 @@ class Ui_Form(object):
         self.Save_ResulsBtn.setText(_translate("Form","Save_RESULTS"))
 
     
-    def showDialog(self):
-
-        fname = QtWidgets.QFileDialog.getOpenFileName()
-
-        f = open(fname, 'r')
-
-        with f:
-            data = f.read()
-            self.Results.setText(str(data))
+    def showDialog(self): #LOAD FILES
+        fname = QtWidgets.QFileDialog.getOpenFileNames()
+       # print(fname[0],fname[1])
+        mn.reduceData(fname[0][0],fname[0][1])
+        #print(mn.X,mn.Y)
+    
 
 
     def btn_SPIRMEN(self):

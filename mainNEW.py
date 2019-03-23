@@ -176,7 +176,6 @@ processedArr_2=[]
 
 
 def dataProcess(file_name):
-     reducedArr=[] 
      print(file_name)
      with open(file_name) as file:
         RAW_DATA=file.read()
@@ -193,12 +192,7 @@ def dataProcess(file_name):
         Seconds_2_Trimmed=DATA[1][1].strip()
         Seconds_2=int(Seconds_2_Trimmed.split(':')[2])
         step=Seconds_2-Seconds_1
-        '''
-        for i in range(0,len(DATA)-1,step):
-            processedArr_1=DATA[i][col_number]
-            reducedArr.append(float(processedArr_1))
-      '''
-     
+       
         return{'step':step,'DATA':DATA}
            
 
@@ -245,8 +239,8 @@ def getIndexFromFile(file_name):
     return(extensions(ext))
 
 
-reduceData(file_name1,file_name2)
-print(len(X),len(Y))
+#reduceData(file_name1,file_name2)
+#print(len(X),len(Y))
 #X11=dataProcess(file_name1) 
 #Y11=dataProcess(file_name2)  
 #print(reducedArr)
