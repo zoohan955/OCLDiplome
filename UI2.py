@@ -11,18 +11,18 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import *
 
 
-
+A=0
+B=0
 
 
 class Ui_Form(object):
+   
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(898, 490)
         self.DATA=self.DATA=''
         self.Results=QtWidgets.QLabel(Form)
         self.Results.setGeometry(QtCore.QRect(180,40,701,401))
-        
-
         
         self.pushButton = QtWidgets.QPushButton(Form)
         self.pushButton.setGeometry(QtCore.QRect(50, 50, 75, 23))
@@ -44,6 +44,11 @@ class Ui_Form(object):
         self.KRUSKAL.setObjectName("KRUSKAL")
         self.KRUSKAL.clicked.connect(self.btn_KRUSKAL)
 
+        self.normalTest=QtWidgets.QPushButton(Form)
+        self.normalTest.setGeometry(QtCore.QRect(50,170,75,23))
+        self.normalTest.setObjectName("NormalTest")
+        self.normalTest.clicked.connect(self.btn_normalTest)
+
 
         self.Save_ResulsBtn=QtWidgets.QPushButton(Form)
         self.Save_ResulsBtn.setGeometry(QtCore.QRect(350,460,91,23))
@@ -60,6 +65,15 @@ class Ui_Form(object):
         self.Median_Btn.setObjectName("Median_Btn")
         self.Median_Btn.clicked.connect(self.median_Output)
 
+        self.X_column=QtWidgets.QLineEdit(Form)
+        self.X_column.setGeometry(QtCore.QRect(30,350,113,20))
+        self.X_column.setObjectName("X_column")
+
+        self.Y_column=QtWidgets.QLineEdit(Form)
+        self.Y_column.setGeometry(QtCore.QRect(30,380,113,20))
+        self.Y_column.setObjectName("Y_column")
+
+        
         self.line = QtWidgets.QFrame(Form)
         self.line.setGeometry(QtCore.QRect(163, 0, 20, 491))
         self.line.setFrameShape(QtWidgets.QFrame.VLine)
@@ -77,10 +91,19 @@ class Ui_Form(object):
         font.setPointSize(17)
         self.label_2.setFont(font)
         self.label_2.setObjectName("label_2")
+
+        self.label4=QtWidgets.QLabel(Form)
+        self.label4.setGeometry(QtCore.QRect(10,310,171,41))
+        font1=QtGui.QFont()
+        font1.setPointSize(15)
+        self.label4.setFont(font1)
+        self.label4.setObjectName("label_4")
+
         self.Load_Btn = QtWidgets.QPushButton(Form)
         self.Load_Btn.setGeometry(QtCore.QRect(180, 460, 75, 23))
         self.Load_Btn.setObjectName("Load_Btn")
         self.Load_Btn.clicked.connect(self.showDialog)
+
         self.Remove_btn = QtWidgets.QPushButton(Form)
         self.Remove_btn.setGeometry(QtCore.QRect(260, 460, 91, 23))
         self.Remove_btn.setObjectName("Remove_btn")
@@ -101,21 +124,22 @@ class Ui_Form(object):
         self.Drawing_Plots.setText(_translate("Form", "Draw_Plots"))
         self.label.setText(_translate("Form", "Normal Check"))
         self.label_2.setText(_translate("Form", "Plots"))
+        self.label4.setText(_translate("Form","Columns settings"))
         self.Load_Btn.setText(_translate("Form", "Load_DATA"))
         self.Remove_btn.setText(_translate("Form", "Remove_Arrays"))
         self.Save_ResulsBtn.setText(_translate("Form","Save_RESULTS"))
+        self.X_column.setText(_translate("Form","A"))
+        self.Y_column.setText(_translate("form","B"))
 
     
     def showDialog(self): #LOAD FILES
         fname = QtWidgets.QFileDialog.getOpenFileNames()
-       # print(fname[0],fname[1])
+        self.btn_Apply()
         mn.reduceData(fname[0][0],fname[0][1])
-        #print(mn.X,mn.Y)
     
 
 
     def btn_SPIRMEN(self):
-        #self.Results.setText(str(mn.Spirmen(mn.X,mn.Y)))
         self.Label_OUTPUT(mn.Spirmen(mn.X,mn.Y))
     def btn_PEARSON(self):
         self.Label_OUTPUT(mn.Pirson(mn.X,mn.Y))
@@ -128,6 +152,13 @@ class Ui_Form(object):
 
     def median_Output(self):
         self.Label_OUTPUT(mn.med())
+
+    def btn_normalTest(self):
+        self.Label_OUTPUT(mn.normalTest(mn.X))
+
+    def btn_Apply(self):
+        mn.A=int(self.X_column.text())
+        mn.B=int(self.Y_column.text())
 
 
 

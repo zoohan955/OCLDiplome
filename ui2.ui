@@ -143,7 +143,7 @@
   <widget class="QPushButton" name="Remove_btn">
    <property name="geometry">
     <rect>
-     <x>260</x>
+     <x>350</x>
      <y>460</y>
      <width>91</width>
      <height>23</height>
@@ -169,7 +169,7 @@
   <widget class="QPushButton" name="Load_Btn_2">
    <property name="geometry">
     <rect>
-     <x>350</x>
+     <x>260</x>
      <y>460</y>
      <width>91</width>
      <height>23</height>
@@ -203,6 +203,70 @@
    </property>
    <property name="text">
     <string>FindMedian</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="normalTest">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>170</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>normalTest</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="X_column">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>350</y>
+     <width>113</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Y_column">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>380</y>
+     <width>113</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>310</y>
+     <width>171</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>15</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Columns settings</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="Apply_Button">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>410</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Apply</string>
    </property>
   </widget>
  </widget>

@@ -7,6 +7,8 @@ import math
 import statistics
 import string
 import re
+#from UI2 import *
+
 
 
 
@@ -87,6 +89,8 @@ def PointCorrGraph(event):
 def PearsonGraph(event):
     Pearson(X,Y)
 
+
+
 def SpearmenGraph():
     Spirmen(X,Y)
 def Graphics(event):
@@ -100,6 +104,10 @@ def OneWayTestGraph(event):
 
 def KSSYMBOL(X,Y):
    return(scipy.stats.ks_2samp(X,Y))
+
+def normalTest(X):
+    return(scipy.stats.normaltest(X))
+
 
 def Graph():
 
@@ -163,8 +171,8 @@ def digression(X,L,Average):
 Xx=[]
 Yy=[]
 #def readData(X):
-col_number=3
-col_number2=5
+A=0
+B=0
 file_name1='20060822_0-0.int'
 file_name2='ik060822.703'
 processedArr_1=[]
@@ -209,24 +217,24 @@ def reduceData(file_name1,file_name2):
     maxStep=max(step1,step2)
     print(len(data1['DATA'])-1)
     print(maxStep/step1)
-    
+    print(A,B)
 
     global X
     X=[]
     for i in range(0,len(data1['DATA'])-1,int(maxStep/step1)):
-        el=data1['DATA'][i][getIndexFromFile(file_name1)]
+        el=data1['DATA'][i][A]
         X.append(float(el))
         
     global Y
     Y=[]
     for i in range(0,len(data2['DATA'])-1,int(maxStep/step2)):
-        el=data2['DATA'][i][getIndexFromFile(file_name2)]
+        el=data2['DATA'][i][B]
         Y.append(float(el))
-
+'''
 def extensions(ext):
     return{
-        'int':3,
-        '703':5,
+        'int':A,
+        '703':B,
     }[ext]
 
 
@@ -236,7 +244,7 @@ def getIndexFromFile(file_name):
         raise TypeError
     ext=F[-1]
     return(extensions(ext))
-
+'''
 
 #reduceData(file_name1,file_name2)
 #print(len(X),len(Y))
@@ -246,8 +254,7 @@ def getIndexFromFile(file_name):
 
 
 
-
-
+print(X)
 
 
 #print(X)
