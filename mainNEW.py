@@ -167,10 +167,9 @@ def digression(X,L,Average):
 
 
 #DATA READ AND CONVERT
-
 Xx=[]
 Yy=[]
-#def readData(X):
+
 A=0
 B=0
 file_name1='20060822_0-0.int'
@@ -230,63 +229,9 @@ def reduceData(file_name1,file_name2):
     for i in range(0,len(data2['DATA'])-1,int(maxStep/step2)):
         el=data2['DATA'][i][B]
         Y.append(float(el))
-'''
-def extensions(ext):
-    return{
-        'int':A,
-        '703':B,
-    }[ext]
-
-
-def getIndexFromFile(file_name):
-    F=file_name.split('.')
-    if len(F)==0:
-        raise TypeError
-    ext=F[-1]
-    return(extensions(ext))
-'''
-
-#reduceData(file_name1,file_name2)
-#print(len(X),len(Y))
-#X11=dataProcess(file_name1) 
-#Y11=dataProcess(file_name2)  
-#print(reducedArr)
 
 
 
 print(X)
 
 
-#print(X)
-#Y=dataProcess2(file_name2)
-#print(len(X))
-#print(len(Y))
-#print(Y11,X11)
-#med(X11)
-
-'''
-with open("x.txt") as file:
-    Xx = [row.strip() for row in file]
-'''
-#with open("Y.txt") as file:
-   # Yy = [row.strip() for row in file]
-
-'''
-with open("X.txt") as f:
-    for line in f:
-        Xx.append([float(x) for x in line.split()])
-
-with open("y.txt") as f:
-    for line in f:
-
-'''
-
-'''
-def dataWriting():
-    f=open("X.txt","w")
-    f1=open("Y.txt","w")
-    for i in range(len(X)):
-        f.writelines(str(X[i])+'\n')
-    for i in range(len(Y)):
-        f1.writelines(str(Y[i])+'\n')
-'''

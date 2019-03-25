@@ -11,9 +11,6 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import *
 
 
-A=0
-B=0
-
 
 class Ui_Form(object):
    
