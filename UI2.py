@@ -170,7 +170,10 @@ class Ui_Form(object):
         
     def dataOut(self):
          PrevA=mn.dataPrieview(self.fname[0][0])
+         PrevB=mn.dataPrieview(self.fname[0][1])
          self.Label_OUTPUT("\n".join(PrevA))
+         self.Label_OUTPUT("\n".join(PrevB))
+    
 
     def Label_OUTPUT(self,f):
         if(self.DATA==""):
