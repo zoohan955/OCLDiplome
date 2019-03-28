@@ -237,7 +237,17 @@ def dataProcess(file_name):
         return{'step':step,'DATA':DATA}
            
 
-
+def dataPrieview(file_name):
+    print(file_name)
+    with open (file_name) as file:
+        RAW_DATA=file.read()
+        rows = RAW_DATA.split('\n')
+        DATA=rows
+        #for row in rows:
+          #  COL_DATA=re.compile("[\t\s]+",re.I|re.M).split(row)
+          #  DATA.append(COL_DATA)
+        del DATA [4:]
+        return(DATA)
 
 X=[]
 Y=[]
@@ -267,6 +277,7 @@ def reduceData(file_name1,file_name2):
 
 
 
-print(X)
+
+#print(X)
 
 

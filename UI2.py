@@ -14,10 +14,12 @@ from PyQt5.QtWidgets import *
 
 class Ui_Form(object):
    
+   
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(898, 490)
         self.DATA=self.DATA=''
+        self.fname=self.fname=''
         self.Results=QtWidgets.QLabel(Form)
         self.Results.setGeometry(QtCore.QRect(180,40,701,401))
         
@@ -45,6 +47,10 @@ class Ui_Form(object):
         self.normalTest.setGeometry(QtCore.QRect(50,170,75,23))
         self.normalTest.setObjectName("NormalTest")
         self.normalTest.clicked.connect(self.btn_normalTest)
+
+        self.Apply_Button=QtWidgets.QPushButton(Form)
+        self.Apply_Button.setGeometry(QtCore.QRect(50,410,75,23))
+        self.Apply_Button.clicked.connect(self.btn_Apply)
 
 
         self.Save_ResulsBtn=QtWidgets.QPushButton(Form)
@@ -121,7 +127,7 @@ class Ui_Form(object):
         self.Drawing_Plots.setText(_translate("Form", "Draw_Plots"))
         self.label.setText(_translate("Form", "Normal Check"))
         self.label_2.setText(_translate("Form", "Plots"))
-        self.label4.setText(_translate("Form","Columns settings"))
+        self.label4.setText(_translate("Form","Columns sellect"))
         self.Load_Btn.setText(_translate("Form", "Load_DATA"))
         self.Remove_btn.setText(_translate("Form", "Remove_Arrays"))
         self.Save_ResulsBtn.setText(_translate("Form","Save_RESULTS"))
@@ -130,9 +136,11 @@ class Ui_Form(object):
 
     
     def showDialog(self): #LOAD FILES
-        fname = QtWidgets.QFileDialog.getOpenFileNames()
-        self.btn_Apply()
-        mn.reduceData(fname[0][0],fname[0][1])
+        self.fname = QtWidgets.QFileDialog.getOpenFileNames()
+        self.dataOut()
+        return(self.fname)
+        #self.btn_Apply()
+        #mn.reduceData(fname[0][0],fname[0][1])
     
 
 
@@ -143,9 +151,6 @@ class Ui_Form(object):
 
     def btn_One_Way(self):
         mn.OCL_NORMALIZE()
-
-        #self.Label_OUTPUT(mn.OneWayTest(mn.X,mn.Y))
-
     
     def btn_KRUSKAL(self):
         self.Label_OUTPUT(mn.KSSYMBOL(mn.X,mn.Y))
@@ -160,7 +165,25 @@ class Ui_Form(object):
         #mn.OCL_NORMALIZE()
         mn.A=int(self.X_column.text())
         mn.B=int(self.Y_column.text())
+        print(self.fname)
+        mn.reduceData(self.fname[0][0],self.fname[0][1])
+        
+    def dataOut(self):
+         #self.Results.setText(str(mn.X))
+         
+         
+         PrevA=mn.dataPrieview(self.fname[0][0])
+         
 
+         #for i in range(0,len(PrevA),1):
+             #PrevA[i]=' '.join( PrevA[i])
+
+         self.Label_OUTPUT("\n".join(PrevA))
+         
+         #ListA=slice(0,200,1)
+
+         #print(PrevA)
+         #self.Label_OUTPUT(mn.X,mn.Y)
 
 
     def Label_OUTPUT(self,f):
