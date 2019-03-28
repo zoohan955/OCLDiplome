@@ -169,22 +169,8 @@ class Ui_Form(object):
         mn.reduceData(self.fname[0][0],self.fname[0][1])
         
     def dataOut(self):
-         #self.Results.setText(str(mn.X))
-         
-         
          PrevA=mn.dataPrieview(self.fname[0][0])
-         
-
-         #for i in range(0,len(PrevA),1):
-             #PrevA[i]=' '.join( PrevA[i])
-
          self.Label_OUTPUT("\n".join(PrevA))
-         
-         #ListA=slice(0,200,1)
-
-         #print(PrevA)
-         #self.Label_OUTPUT(mn.X,mn.Y)
-
 
     def Label_OUTPUT(self,f):
         if(self.DATA==""):
