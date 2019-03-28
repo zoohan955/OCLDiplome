@@ -142,7 +142,10 @@ class Ui_Form(object):
         self.Label_OUTPUT(mn.Pirson(mn.X,mn.Y))
 
     def btn_One_Way(self):
-        self.Label_OUTPUT(mn.OneWayTest(mn.X,mn.Y))
+        mn.OCL_NORMALIZE()
+
+        #self.Label_OUTPUT(mn.OneWayTest(mn.X,mn.Y))
+
     
     def btn_KRUSKAL(self):
         self.Label_OUTPUT(mn.KSSYMBOL(mn.X,mn.Y))
@@ -154,6 +157,7 @@ class Ui_Form(object):
         self.Label_OUTPUT(mn.normalTest(mn.X))
 
     def btn_Apply(self):
+        #mn.OCL_NORMALIZE()
         mn.A=int(self.X_column.text())
         mn.B=int(self.Y_column.text())
 
@@ -168,7 +172,8 @@ class Ui_Form(object):
 
 
     def btn_REMOVE_ARRAYS(self):
-        self.Results.clear()
+        #self.Results.clear()
+        self.Results.close()
     
     def SAVING(self):
         f=open("out.int","w")

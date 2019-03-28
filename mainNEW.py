@@ -1,5 +1,4 @@
 import matplotlib.pyplot as plt
-#import pyopencl as ocl
 import numpy as np
 import scipy.stats as st
 import scipy
@@ -7,6 +6,8 @@ import math
 import statistics
 import string
 import re
+import pyopencl as cl
+
 #from UI2 import *
 
 
@@ -20,13 +21,6 @@ def SUM(X,Y):
 def AVERAGE(a,n):
     return a/n
 
-mu=0.5
-sigma=0.2
-mu1=0.1
-sigma1=0.08 
-
-#X= np.random.normal(mu,sigma,100000)
-#Y= np.random.normal(mu1,sigma1,100000)
 #----------------------PLOTTING---------------------------
 def Graphical(X,Y):
     data=np.concatenate((X,Y))
@@ -113,7 +107,44 @@ def Graph():
 
     Graphical(X,Y)
 
-        
+def OCL_NORMALIZE():
+    
+    
+
+    #a_np = float(X)
+    a_np=np.asarray(X)
+    b_np=np.asarray(Y)
+
+    #b_np = float(Y)
+
+    ctx = cl.create_some_context(0)
+    queue = cl.CommandQueue(ctx)
+
+    mf = cl.mem_flags
+    a_g = cl.Buffer(ctx, mf.READ_ONLY | mf.COPY_HOST_PTR, hostbuf=a_np)
+    b_g = cl.Buffer(ctx, mf.READ_ONLY | mf.COPY_HOST_PTR, hostbuf=b_np)
+
+    prg = cl.Program(ctx, """
+    __kernel void sum(
+        __global const float *a_g, __global const float *b_g, __global float *res_g)
+    {
+    int gid = get_global_id(0);
+    res_g[gid] = a_g[gid] * b_g[gid];
+    }
+    """).build()
+
+    res_g = cl.Buffer(ctx, mf.WRITE_ONLY, a_np.nbytes)
+    prg.sum(queue, a_np.shape, None, a_g, b_g, res_g)
+
+    res_np = np.empty_like(a_np)
+    cl.enqueue_copy(queue, res_np, res_g)
+
+    # Check on CPU with Numpy:
+    print(res_np - (a_np + b_np))
+    print(np.linalg.norm(res_np - (a_np + b_np)))
+    #print(X)
+    #print(Y)
+
 
 
 #--------------------------------------------------------------------
