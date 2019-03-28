@@ -129,7 +129,7 @@ def OCL_NORMALIZE():
         __global const float *a_g, __global const float *b_g, __global float *res_g)
     {
     int gid = get_global_id(0);
-    res_g[gid] = a_g[gid] * b_g[gid];
+    res_g[gid] = a_g[gid] / b_g[gid];
     }
     """).build()
 
@@ -140,8 +140,12 @@ def OCL_NORMALIZE():
     cl.enqueue_copy(queue, res_np, res_g)
 
     # Check on CPU with Numpy:
-    print(res_np - (a_np + b_np))
-    print(np.linalg.norm(res_np - (a_np + b_np)))
+    #print(res_np,res_g)
+    print(a_np)
+    print(b_np)
+    print(list(res_np))
+    #print(res_np - (a_np + b_np))
+    #print(np.linalg.norm(res_np - (a_np + b_np)))
     #print(X)
     #print(Y)
 

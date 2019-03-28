@@ -104,7 +104,7 @@ class Ui_Form(object):
         self.Remove_btn = QtWidgets.QPushButton(Form)
         self.Remove_btn.setGeometry(QtCore.QRect(260, 460, 91, 23))
         self.Remove_btn.setObjectName("Remove_btn")
-        self.Remove_btn.clicked.connect(self.Results.clear)
+        self.Remove_btn.clicked.connect(self.btn_REMOVE_ARRAYS)
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -172,8 +172,9 @@ class Ui_Form(object):
 
 
     def btn_REMOVE_ARRAYS(self):
-        #self.Results.clear()
-        self.Results.close()
+        self.Results.clear()
+        self.DATA=""
+      
     
     def SAVING(self):
         f=open("out.int","w")
