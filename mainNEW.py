@@ -9,6 +9,9 @@ import re
 import pyopencl as cl
 
 #from UI2 import *
+pVar=0
+X=[]
+Y=[]
 
 
 
@@ -22,20 +25,7 @@ def AVERAGE(a,n):
     return a/n
 
 #----------------------PLOTTING---------------------------
-def Graphical(X,Y):
-    data=np.concatenate((X,Y))
-    bins=20
-    #fig,axs=plt.subplots(1,3,figsize=(9,3))
-    plt.subplot(2,2,1)
-    plt.hist(data,bins)
-    plt.subplot(2,2,2)
-    plt.boxplot(data)
-    plt.subplot(2,2,3)
-    plt.scatter(X,Y)
-    plt.subplot(2,2,4)
-    plt.plot(data)
-    
-    plt.show() 
+
 #---------------------------------------------------------
 def Pearson(X,Y):
     len1=len(X)
@@ -64,7 +54,23 @@ def Pearson(X,Y):
 
 #----------------------------CRITERIA--------------------------------
 def Pirson(X,Y):
+    
+    #pVar=(statistics.pvariance(Y)/1000000)
+
+    #print(statistics.pvariance(X))
+    
+    #print(pVar)
+    #for i in range (len(Y)):
+      # Y1.append(Y[i]/pVar/1000000)
+    #Y=Y1
     result= scipy.stats.pearsonr(X,Y)
+
+    # print(np.var(Y))
+    # print(np.mean(X))
+    # print(np.mean(Y))
+    # print(np.std(X))
+    # print(np.std(Y))
+    print(Y)
     return('PearsonResult('+'correlation='+str(result[0])+', pvalue='+str(result[1])+')')
 
 def PirsonGraph(event):
@@ -108,13 +114,15 @@ def Graph():
     Graphical(X,Y)
 
 def OCL_NORMALIZE():
-    
-    
+   # pVar=(statistics.pvariance(Y)/1000000)
+    global Y
 
     #a_np = float(X)
     a_np=np.asarray(X)
     b_np=np.asarray(Y)
-
+    pvar=0.11011010101011
+    
+    #np.asbytes
     #b_np = float(Y)
 
     ctx = cl.create_some_context(0)
@@ -123,27 +131,35 @@ def OCL_NORMALIZE():
     mf = cl.mem_flags
     a_g = cl.Buffer(ctx, mf.READ_ONLY | mf.COPY_HOST_PTR, hostbuf=a_np)
     b_g = cl.Buffer(ctx, mf.READ_ONLY | mf.COPY_HOST_PTR, hostbuf=b_np)
+    #pvar_g=cl.Buffer(ctx,mf.READ_ONLY|mf.COPY_HOST_PTR,hostbuf=pvar)
 
     prg = cl.Program(ctx, """
     __kernel void sum(
-        __global const float *a_g, __global const float *b_g, __global float *res_g)
+        __global const float *a_g,__global const float *b_g, __global float *res_g)
     {
     int gid = get_global_id(0);
-    res_g[gid] = a_g[gid] / b_g[gid];
+   
+        res_g[gid]=b_g[gid]/10000;
+  
+    
+  
     }
     """).build()
 
     res_g = cl.Buffer(ctx, mf.WRITE_ONLY, a_np.nbytes)
-    prg.sum(queue, a_np.shape, None, a_g, b_g, res_g)
+    prg.sum(queue, b_np.shape, None, a_g, b_g, res_g)
 
-    res_np = np.empty_like(a_np)
+    res_np = np.empty_like(b_np)
     cl.enqueue_copy(queue, res_np, res_g)
 
     # Check on CPU with Numpy:
     #print(res_np,res_g)
-    print(a_np)
-    print(b_np)
-    print(list(res_np))
+    #print(a_np)
+    #print(b_np)
+    #print(list(res_np))
+    Y=list(res_np)
+    print(len(Y))
+    print(len(X))
     #print(res_np - (a_np + b_np))
     #print(np.linalg.norm(res_np - (a_np + b_np)))
     #print(X)
@@ -245,8 +261,7 @@ def dataPrieview(file_name):
         del DATA [4:]
         return(DATA)
 
-X=[]
-Y=[]
+
 
 def reduceData(file_name1,file_name2):
     data1=dataProcess(file_name1)
@@ -273,3 +288,17 @@ def reduceData(file_name1,file_name2):
 
 
 
+def Graphical(X,Y):
+    data=np.concatenate((X,Y))
+    bins=20
+    #fig,axs=plt.subplots(1,3,figsize=(9,3))
+    plt.subplot(2,2,1)
+    plt.hist(data,bins)
+    plt.subplot(2,2,2)
+    plt.boxplot(data)
+    plt.subplot(2,2,3)
+    plt.scatter(X,Y)
+    plt.subplot(2,2,4)
+    plt.plot(data)
+    
+    plt.show() 
