@@ -7,11 +7,15 @@ import statistics
 import string
 import re
 import pyopencl as cl
+from sklearn import preprocessing
+
 
 #from UI2 import *
 pVar=0
 X=[]
 Y=[]
+arrY=[]
+arrX=[]
 
 
 
@@ -23,6 +27,9 @@ def SUM(X,Y):
     
 def AVERAGE(a,n):
     return a/n
+
+def Average(lst): 
+    return sum(lst) / len(lst)
 
 #----------------------PLOTTING---------------------------
 
@@ -77,11 +84,43 @@ def PirsonGraph(event):
     Pirson(X,Y)
 
 def Spirmen(X,Y):
+    miniMax(Y,X)
     return(scipy.stats.spearmanr(X,Y))
 
 def PointCorr(X,Y):
     return(scipy.stats.pointbiserialr(X,Y))
-    
+
+def miniMax(Y,X):
+    global arrY
+    global arrX
+    Ymax=max(Y)
+    Ymin=min(Y)
+    Xmax=max(X)
+    Xmin=min(X)
+   
+    for i in Y:
+        arrY.append((i-Ymin)/(Ymax-Ymin))
+
+    for i in X:
+        arrX.append((i-Xmin)/(Xmax-Xmin))
+    X=arrX
+    Y=arrY
+    print(arrY)
+    print(arrX)
+
+
+
+
+def scale(Y):
+    scaleArr=[]
+    for i in Y:
+        scaleArr.append(i/pow(10,5))
+    print (scaleArr)
+
+
+
+
+
 
 def PointCorrGraph(event):
     PointCorr(X,Y)
@@ -92,6 +131,7 @@ def PearsonGraph(event):
 
 
 def SpearmenGraph():
+    
     Spirmen(X,Y)
 def Graphics(event):
     Graphical(X,Y)
@@ -140,9 +180,6 @@ def OCL_NORMALIZE():
     int gid = get_global_id(0);
    
         res_g[gid]=b_g[gid]/10000;
-  
-    
-  
     }
     """).build()
 
