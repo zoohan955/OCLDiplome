@@ -7,6 +7,8 @@ import statistics
 import string
 import re
 import pyopencl as cl
+from pyopencl.elementwise import ElementwiseKernel
+import pyopencl.array
 from sklearn import preprocessing
 
 
@@ -85,6 +87,7 @@ def PirsonGraph(event):
 
 def Spirmen(X,Y):
     miniMax(Y,X)
+    #scale(X,Y)
     return(scipy.stats.spearmanr(X,Y))
 
 def PointCorr(X,Y):
@@ -105,17 +108,23 @@ def miniMax(Y,X):
         arrX.append((i-Xmin)/(Xmax-Xmin))
     X=arrX
     Y=arrY
+    
     print(arrY)
     print(arrX)
 
 
 
 
-def scale(Y):
-    scaleArr=[]
+def scale(X,Y):
+    scaleArrY=[]
+    scaleArrX=[]
     for i in Y:
-        scaleArr.append(i/pow(10,5))
-    print (scaleArr)
+        scaleArrY.append(i/pow(10,8))
+    for i in X:
+        scaleArrX.append(i/pow(10,8))
+        
+    print (scaleArrY)
+    print (scaleArrX)
 
 
 
@@ -160,50 +169,26 @@ def OCL_NORMALIZE():
     #a_np = float(X)
     a_np=np.asarray(X)
     b_np=np.asarray(Y)
-    pvar=0.11011010101011
+    Xmax=np.float(max(X))
+    Ymax=np.float(max(Y))
+    Xmin=np.float(min(X))
+    Ymin=np.float(min(Y))
     
     #np.asbytes
     #b_np = float(Y)
 
     ctx = cl.create_some_context(0)
     queue = cl.CommandQueue(ctx)
-
-    mf = cl.mem_flags
-    a_g = cl.Buffer(ctx, mf.READ_ONLY | mf.COPY_HOST_PTR, hostbuf=a_np)
-    b_g = cl.Buffer(ctx, mf.READ_ONLY | mf.COPY_HOST_PTR, hostbuf=b_np)
+    b_g=cl.array.to_device(queue,b_np)
+    
     #pvar_g=cl.Buffer(ctx,mf.READ_ONLY|mf.COPY_HOST_PTR,hostbuf=pvar)
 
-    prg = cl.Program(ctx, """
-    __kernel void sum(
-        __global const float *a_g,__global const float *b_g, __global float *res_g)
-    {
-    int gid = get_global_id(0);
+    norm=ElementwiseKernel(ctx,"float Xmax,float Xmin,float *a_g,float *res",
+    "res[i]=(a_g[i]-Xmin)/(Xmax-Xmin)","norm")
+    res=cl.array.empty_like(b_g)
+    Xnorm=norm(Xmax,Xmin,b_g,res)
    
-        res_g[gid]=b_g[gid]/10000;
-    }
-    """).build()
-
-    res_g = cl.Buffer(ctx, mf.WRITE_ONLY, a_np.nbytes)
-    prg.sum(queue, b_np.shape, None, a_g, b_g, res_g)
-
-    res_np = np.empty_like(b_np)
-    cl.enqueue_copy(queue, res_np, res_g)
-
-    # Check on CPU with Numpy:
-    #print(res_np,res_g)
-    #print(a_np)
-    #print(b_np)
-    #print(list(res_np))
-    Y=list(res_np)
-    print(len(Y))
-    print(len(X))
-    #print(res_np - (a_np + b_np))
-    #print(np.linalg.norm(res_np - (a_np + b_np)))
-    #print(X)
-    #print(Y)
-
-
-
+    print(list(Ynorm))
 #--------------------------------------------------------------------
 
 
@@ -227,30 +212,7 @@ def digression(X,L,Average):
 
 
 
-#def PearsonInt(X,Y):
-   # print("PearsonResult",scipy.stats.pearsonr(X,Y))
 
-
-
-    '''
-    ranksX = np.array(X).argsort().argsort()
-    ranksY = np.array(Y).argsort().argsort()
-    print(ranksX)
-    print(ranksY)
-    X1=X
-    deltaN=0
-    #X1=sorted(X1)
-    n=len(X)
-    dN=0
-    dNPow=0
-    S=0
-    for i in range(len(ranksX)):
-         dX=i
-         dY=i
-         dN+=ranksY[i]-ranksX[i]
-         dNPow+=pow(ranksY[i],2)-pow(ranksX[i],2)
-         S=1-(6*dNPow)/n*(pow(n,2)-1) 
-         print("SPRIMEN=",dNPow)'''
 
 
 
@@ -339,3 +301,38 @@ def Graphical(X,Y):
     plt.plot(data)
     
     plt.show() 
+
+
+    # mf = cl.mem_flags
+    # a_g = cl.Buffer(ctx, mf.READ_ONLY | mf.COPY_HOST_PTR, hostbuf=a_np)
+    # b_g = cl.Buffer(ctx, mf.READ_ONLY | mf.COPY_HOST_PTR, hostbuf=b_np)
+   
+    # prg = cl.Program(ctx, """
+    # __kernel void sum(
+    #     __global const float *a_g,__global const float *b_g, __global float *res_g, global float *Xmax)
+    # {
+    # int gid = get_global_id(0);
+       
+    #     res_g[gid]=b_g[gid]/Xmax;
+    # }
+    # """).build()
+
+
+    # res_g = cl.Buffer(ctx, mf.WRITE_ONLY, a_np.nbytes)
+    # prg.sum(queue, b_np.shape, None, a_g, b_g, res_g)
+
+    # res_np = np.empty_like(b_np)
+    # cl.enqueue_copy(queue, res_np, res_g)
+
+    # # Check on CPU with Numpy:
+    # #print(res_np,res_g)
+    # #print(a_np)
+    # #print(b_np)
+    # #print(list(res_np))
+    # Y=list(res_np)
+    # print(len(Y))
+    # print(len(X))
+    # #print(res_np - (a_np + b_np))
+    # #print(np.linalg.norm(res_np - (a_np + b_np)))
+    # #print(X)
+    # #print(Y)
