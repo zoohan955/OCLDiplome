@@ -13,11 +13,11 @@ from PyQt5.QtWidgets import *
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(898, 490)
+        Form.resize(1600, 500)
         self.DATA=self.DATA=''
         self.fname=self.fname=''
         self.Results=QtWidgets.QLabel(Form)
-        self.Results.setGeometry(QtCore.QRect(180,40,701,401))
+        self.Results.setGeometry(QtCore.QRect(190,50,1500,401))
         
         self.pushButton = QtWidgets.QPushButton(Form)
         self.pushButton.setGeometry(QtCore.QRect(50, 50, 75, 23))
@@ -141,12 +141,15 @@ class Ui_Form(object):
 
 
     def btn_SPIRMEN(self):
-        self.Label_OUTPUT(mn.Spirmen(mn.X,mn.Y))
+        #self.Label_OUTPUT(mn.Spirmen(mn.X,mn.Y))
+        self.Label_OUTPUT(mn.descriptiveX(mn.X))
+        self.Label_OUTPUT(mn.descriptiveY(mn.Y))
     def btn_PEARSON(self):
         self.Label_OUTPUT(mn.Pirson(mn.X,mn.Y))
 
     def btn_One_Way(self):
-        mn.OCL_NORMALIZE()
+        mn.miniMax(mn.X,mn.Y)
+        #mn.OCL_NORMALIZE()
     
     def btn_KRUSKAL(self):
         self.Label_OUTPUT(mn.KSSYMBOL(mn.X,mn.Y))

@@ -9,7 +9,6 @@ import re
 import pyopencl as cl
 from pyopencl.elementwise import ElementwiseKernel
 import pyopencl.array
-from sklearn import preprocessing
 
 
 #from UI2 import *
@@ -61,24 +60,37 @@ def Pearson(X,Y):
     return(Rxy)
     #print(Mx)
 
+def descriptiveX(X):
+    lenX=len(X)
+    meanX=np.mean(X)
+    minX=min(X)
+    maxX=max(X)
+    stdX=np.std(X)
+    Kvartils=[]
+    Kvartils.append((np.percentile(X, 25), np.percentile(X, 50), np.percentile(X, 75))) # квартили X
+    modaX=st.mode(X)
+    ekscessX=st.kurtosis(X)
+    return{'lenX':lenX,'meanX':meanX,'minX':minX,'maxX':maxX,'stdX':stdX,'Kvartils':Kvartils,'modaX':modaX,'ekscessX':ekscessX}
+
+def descriptiveY(Y):
+    lenY=len(Y)
+    meanY=np.mean(Y)
+    minY=min(Y)
+    maxY=max(Y)
+    stdY=np.std(Y)
+    Kvartils=[]
+    Kvartils.append((np.percentile(Y, 25), np.percentile(Y, 50), np.percentile(Y, 75))) # квартили X
+    modaY=st.mode(Y)
+    ekscessY=st.kurtosis(Y)
+    return{'lenY':lenY,'meanY':meanY,'minY':minY,'maxY':maxY,'stdY':stdY,'Kvartils':Kvartils,'modaY':modaY,'ekscessY':ekscessY}
+
+#kde=descriptiveX(X)
+
 #----------------------------CRITERIA--------------------------------
 def Pirson(X,Y):
     
-    #pVar=(statistics.pvariance(Y)/1000000)
-
-    #print(statistics.pvariance(X))
-    
-    #print(pVar)
-    #for i in range (len(Y)):
-      # Y1.append(Y[i]/pVar/1000000)
-    #Y=Y1
     result= scipy.stats.pearsonr(X,Y)
 
-    # print(np.var(Y))
-    # print(np.mean(X))
-    # print(np.mean(Y))
-    # print(np.std(X))
-    # print(np.std(Y))
     print(Y)
     return('PearsonResult('+'correlation='+str(result[0])+', pvalue='+str(result[1])+')')
 
@@ -144,6 +156,7 @@ def SpearmenGraph():
     Spirmen(X,Y)
 def Graphics(event):
     Graphical(X,Y)
+   
 
 def OneWayTest(X,Y):
     return(scipy.stats.f_oneway(X,Y))
@@ -160,35 +173,26 @@ def normalTest(X):
 
 def Graph():
 
+    #Graphical(X,Y)
     Graphical(X,Y)
 
 def OCL_NORMALIZE():
-   # pVar=(statistics.pvariance(Y)/1000000)
     global Y
-
-    #a_np = float(X)
     a_np=np.asarray(X)
     b_np=np.asarray(Y)
     Xmax=np.float(max(X))
     Ymax=np.float(max(Y))
     Xmin=np.float(min(X))
     Ymin=np.float(min(Y))
-    
-    #np.asbytes
-    #b_np = float(Y)
-
     ctx = cl.create_some_context(0)
     queue = cl.CommandQueue(ctx)
     b_g=cl.array.to_device(queue,b_np)
-    
-    #pvar_g=cl.Buffer(ctx,mf.READ_ONLY|mf.COPY_HOST_PTR,hostbuf=pvar)
-
     norm=ElementwiseKernel(ctx,"float Xmax,float Xmin,float *a_g,float *res",
     "res[i]=(a_g[i]-Xmin)/(Xmax-Xmin)","norm")
     res=cl.array.empty_like(b_g)
     Xnorm=norm(Xmax,Xmin,b_g,res)
-   
-    print(list(Ynorm))
+    Ynorm=norm(Ymax,Ymin,b_g,res)
+    print(list(Xnorm,Ynorm))
 #--------------------------------------------------------------------
 
 
@@ -222,8 +226,8 @@ Yy=[]
 
 A=0
 B=0
-file_name1='20060822_0-0.int'
-file_name2='ik060822.703'
+#file_name1='20060822_0-0.int'
+#file_name2='ik060822.703'
 processedArr_1=[]
 
 processedArr_2=[] 
@@ -288,19 +292,60 @@ def reduceData(file_name1,file_name2):
 
 
 def Graphical(X,Y):
-    data=np.concatenate((X,Y))
-    bins=20
-    #fig,axs=plt.subplots(1,3,figsize=(9,3))
-    plt.subplot(2,2,1)
-    plt.hist(data,bins)
-    plt.subplot(2,2,2)
-    plt.boxplot(data)
+    dataX=np.concatenate((X,X))
+    dataY=np.concatenate((Y,Y))
+    bins=600
+
+    #X
     plt.subplot(2,2,3)
-    plt.scatter(X,Y)
+    plt.boxplot(dataX)
+    plt.title('X Data')
+    plt.grid(True)
+
+    plt.subplot(2,2,1)
+    plt.hist(dataX,bins)
+    plt.title('X Data')
+    plt.grid(True)
+
+    #Y
+    plt.subplot(2,2,2)
+    plt.hist(dataY,bins)
+    plt.title('Y Data')
+    plt.grid(True)
+
+
     plt.subplot(2,2,4)
-    plt.plot(data)
+    plt.boxplot(dataY)
+    plt.title('Y Data')
+    plt.grid(True)
+
+    #fig,axs=plt.subplots(1,3,figsize=(9,3))
+    # plt.subplot(2,2,1)
+    # plt.hist(data,bins)
+    # plt.subplot(2,2,2)
+    # plt.boxplot(data)
+    # plt.subplot(2,2,3)
+    # plt.scatter(X,X)
+    # plt.subplot(2,2,4)
+    # plt.plot(data)
     
     plt.show() 
+# def GraphicalY(X,Y):
+#     data=np.concatenate((Y,Y))
+#     bins=134
+#     #fig,axs=plt.subplots(1,3,figsize=(9,3))
+#     plt.subplot(2,2,1)
+#     plt.hist(data,bins)
+#     plt.subplot(2,2,2)
+#     plt.boxplot(data)
+#     plt.subplot(2,2,3)
+#     plt.scatter(Y,Y)
+#     plt.subplot(2,2,4)
+#     plt.plot(data)
+    
+#     plt.show() 
+
+
 
 
     # mf = cl.mem_flags
