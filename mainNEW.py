@@ -11,12 +11,11 @@ from pyopencl.elementwise import ElementwiseKernel
 import pyopencl.array
 
 
-#from UI2 import *
 pVar=0
 X=[]
 Y=[]
-arrY=[]
-arrX=[]
+# arrY=[]
+# arrX=[]
 
 
 
@@ -56,9 +55,8 @@ def Pearson(X,Y):
         DxDy+=dX*dY
        
     Rxy=(DxDy)/math.sqrt(sumpowX*sumpowY) 
-    #print("Pearson =", Rxy)
     return(Rxy)
-    #print(Mx)
+
 
 def descriptiveX(X):
     lenX=len(X)
@@ -79,7 +77,7 @@ def descriptiveY(Y):
     maxY=max(Y)
     stdY=np.std(Y)
     Kvartils=[]
-    Kvartils.append((np.percentile(Y, 25), np.percentile(Y, 50), np.percentile(Y, 75))) # квартили X
+    Kvartils.append((np.percentile(Y, 25), np.percentile(Y, 50), np.percentile(Y, 75))) # квартили Y
     modaY=st.mode(Y)
     ekscessY=st.kurtosis(Y)
     return{'lenY':lenY,'meanY':meanY,'minY':minY,'maxY':maxY,'stdY':stdY,'Kvartils':Kvartils,'modaY':modaY,'ekscessY':ekscessY}
@@ -92,37 +90,40 @@ def Pirson(X,Y):
     result= scipy.stats.pearsonr(X,Y)
 
     print(Y)
+    print(st.shapiro(X))
+    print(st.shapiro(Y))
     return('PearsonResult('+'correlation='+str(result[0])+', pvalue='+str(result[1])+')')
 
 def PirsonGraph(event):
     Pirson(X,Y)
 
 def Spirmen(X,Y):
-    miniMax(Y,X)
-    #scale(X,Y)
     return(scipy.stats.spearmanr(X,Y))
 
 def PointCorr(X,Y):
     return(scipy.stats.pointbiserialr(X,Y))
 
-def miniMax(Y,X):
-    global arrY
-    global arrX
-    Ymax=max(Y)
-    Ymin=min(Y)
-    Xmax=max(X)
-    Xmin=min(X)
-   
-    for i in Y:
+def miniMax(X1,Y1):
+    arrX=[]
+    arrY=[]
+    Xmax=max(X1)
+    Xmin=min(X1)
+    Ymax=max(Y1)
+    Ymin=min(Y1)
+
+    for i in X1:
+        arrX.append((i-Xmin)/(Xmax-Xmin))
+
+    for i in Y1:
         arrY.append((i-Ymin)/(Ymax-Ymin))
 
-    for i in X:
-        arrX.append((i-Xmin)/(Xmax-Xmin))
+   
     X=arrX
     Y=arrY
+    print(X)
+    print(Y)
+    return X,Y
     
-    print(arrY)
-    print(arrX)
 
 
 
@@ -152,10 +153,13 @@ def PearsonGraph(event):
 
 
 def SpearmenGraph():
-    
     Spirmen(X,Y)
+    
 def Graphics(event):
     Graphical(X,Y)
+
+def Shapiro(X,Y):
+    return {"X_DATA":st.shapiro(X),"Y_DATA":st.shapiro(Y)}
    
 
 def OneWayTest(X,Y):
@@ -171,10 +175,7 @@ def normalTest(X):
     return(scipy.stats.normaltest(X))
 
 
-def Graph():
 
-    #Graphical(X,Y)
-    Graphical(X,Y)
 
 def OCL_NORMALIZE():
     global Y
@@ -214,26 +215,15 @@ def digression(X,L,Average):
 
 
 
-
-
-
-
-
-
 #DATA READ AND CONVERT
 Xx=[]
 Yy=[]
 
 A=0
 B=0
-#file_name1='20060822_0-0.int'
-#file_name2='ik060822.703'
 processedArr_1=[]
 
 processedArr_2=[] 
-
-
-
 
 def dataProcess(file_name):
      print(file_name)
@@ -291,10 +281,10 @@ def reduceData(file_name1,file_name2):
 
 
 
-def Graphical(X,Y):
-    dataX=np.concatenate((X,X))
-    dataY=np.concatenate((Y,Y))
-    bins=600
+def Graphical(X1,Y1):
+    dataX=np.concatenate((X1,X1))
+    dataY=np.concatenate((Y1,Y1))
+    bins=1000
 
     #X
     plt.subplot(2,2,3)
@@ -318,17 +308,6 @@ def Graphical(X,Y):
     plt.boxplot(dataY)
     plt.title('Y Data')
     plt.grid(True)
-
-    #fig,axs=plt.subplots(1,3,figsize=(9,3))
-    # plt.subplot(2,2,1)
-    # plt.hist(data,bins)
-    # plt.subplot(2,2,2)
-    # plt.boxplot(data)
-    # plt.subplot(2,2,3)
-    # plt.scatter(X,X)
-    # plt.subplot(2,2,4)
-    # plt.plot(data)
-    
     plt.show() 
 # def GraphicalY(X,Y):
 #     data=np.concatenate((Y,Y))
