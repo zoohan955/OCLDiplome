@@ -14,10 +14,15 @@ import pyopencl.array
 pVar=0
 X=[]
 Y=[]
-# arrY=[]
-# arrX=[]
+arrY=[]
+arrX=[]
 
+class DataSets(object):
+    def __init__(self,A=[],B=[]):
+        self.A=A
+        self.B=B
 
+DataSet=DataSets(arrX,arrY)
 
 
 def MULT(X,Y):
@@ -64,11 +69,22 @@ def descriptiveX(X):
     minX=min(X)
     maxX=max(X)
     stdX=np.std(X)
-    Kvartils=[]
-    Kvartils.append((np.percentile(X, 25), np.percentile(X, 50), np.percentile(X, 75))) # квартили X
+    KvartilsA=[]
+    KvartilsA.append((np.percentile(X, 25), np.percentile(X, 50), np.percentile(X, 75))) # квартили A
     modaX=st.mode(X)
-    ekscessX=st.kurtosis(X)
-    return{'lenX':lenX,'meanX':meanX,'minX':minX,'maxX':maxX,'stdX':stdX,'Kvartils':Kvartils,'modaX':modaX,'ekscessX':ekscessX}
+    excessX=st.kurtosis(X)
+    assymX=st.skew(X)
+    resultX=[]
+    resultX.append("Len_A="+str(lenX))
+    resultX.append("Mean_A="+str(meanX))
+    resultX.append("Min_A="+str(minX))
+    resultX.append("Max_A="+str(maxX))
+    resultX.append("Std_A="+str(stdX))
+    resultX.append("Kvartils_A="+str(KvartilsA))
+    resultX.append("Moda_A="+str(modaX))
+    resultX.append("Excess_A="+str(excessX))
+    resultX.append("Assym_A="+str(assymX))
+    return resultX
 
 def descriptiveY(Y):
     lenY=len(Y)
@@ -76,13 +92,24 @@ def descriptiveY(Y):
     minY=min(Y)
     maxY=max(Y)
     stdY=np.std(Y)
-    Kvartils=[]
-    Kvartils.append((np.percentile(Y, 25), np.percentile(Y, 50), np.percentile(Y, 75))) # квартили Y
+    KvartilsB=[]
+    KvartilsB.append((np.percentile(Y, 25), np.percentile(Y, 50), np.percentile(Y, 75))) # квартили B
     modaY=st.mode(Y)
-    ekscessY=st.kurtosis(Y)
-    return{'lenY':lenY,'meanY':meanY,'minY':minY,'maxY':maxY,'stdY':stdY,'Kvartils':Kvartils,'modaY':modaY,'ekscessY':ekscessY}
+    excessY=st.kurtosis(Y)
+    assymY=st.skew(Y)
+    resultY=[]
+    resultY.append("Len_B="+str(lenY))
+    resultY.append("Mean_B="+str(meanY))
+    resultY.append("Min_B="+str(minY))
+    resultY.append("Max_B="+str(maxY))
+    resultY.append("Std_B="+str(stdY))
+    resultY.append("Kvartils_B="+str(KvartilsB))
+    resultY.append("Moda_B="+str(modaY))
+    resultY.append("Excess_B="+str(excessY))
+    resultY.append("Assym_B="+str(assymY))
+    return resultY
 
-#kde=descriptiveX(X)
+
 
 #----------------------------CRITERIA--------------------------------
 def Pirson(X,Y):
@@ -104,8 +131,8 @@ def PointCorr(X,Y):
     return(scipy.stats.pointbiserialr(X,Y))
 
 def miniMax(X1,Y1):
-    arrX=[]
-    arrY=[]
+    global arrX
+    global arrY
     Xmax=max(X1)
     Xmin=min(X1)
     Ymax=max(Y1)
@@ -117,12 +144,8 @@ def miniMax(X1,Y1):
     for i in Y1:
         arrY.append((i-Ymin)/(Ymax-Ymin))
 
-   
-    X=arrX
-    Y=arrY
-    print(X)
-    print(Y)
-    return X,Y
+    global DataSet
+    return DataSet.A,DataSet.B
     
 
 
@@ -281,10 +304,10 @@ def reduceData(file_name1,file_name2):
 
 
 
-def Graphical(X1,Y1):
-    dataX=np.concatenate((X1,X1))
-    dataY=np.concatenate((Y1,Y1))
-    bins=1000
+def Graphical(A,B):
+    dataX=np.concatenate((A,A))
+    dataY=np.concatenate((B,B))
+    bins=400
 
     #X
     plt.subplot(2,2,3)
@@ -309,24 +332,8 @@ def Graphical(X1,Y1):
     plt.title('Y Data')
     plt.grid(True)
     plt.show() 
-# def GraphicalY(X,Y):
-#     data=np.concatenate((Y,Y))
-#     bins=134
-#     #fig,axs=plt.subplots(1,3,figsize=(9,3))
-#     plt.subplot(2,2,1)
-#     plt.hist(data,bins)
-#     plt.subplot(2,2,2)
-#     plt.boxplot(data)
-#     plt.subplot(2,2,3)
-#     plt.scatter(Y,Y)
-#     plt.subplot(2,2,4)
-#     plt.plot(data)
-    
-#     plt.show() 
 
-
-
-
+    #OLD_KERNEL
     # mf = cl.mem_flags
     # a_g = cl.Buffer(ctx, mf.READ_ONLY | mf.COPY_HOST_PTR, hostbuf=a_np)
     # b_g = cl.Buffer(ctx, mf.READ_ONLY | mf.COPY_HOST_PTR, hostbuf=b_np)

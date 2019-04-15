@@ -13,11 +13,11 @@ from PyQt5.QtWidgets import *
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(1600, 500)
+        Form.resize(1920, 500)
         self.DATA=self.DATA=''
         self.fname=self.fname=''
         self.Results=QtWidgets.QLabel(Form)
-        self.Results.setGeometry(QtCore.QRect(190,50,1500,401))
+        self.Results.setGeometry(QtCore.QRect(190,50,1920,500))
         
         self.pushButton = QtWidgets.QPushButton(Form)
         self.pushButton.setGeometry(QtCore.QRect(50, 50, 75, 23))
@@ -82,7 +82,7 @@ class Ui_Form(object):
 
 
         self.line2=QtWidgets.QFrame(Form)
-        self.line2.setGeometry(QtCore.QRect(170, 450, 1431, 20))
+        self.line2.setGeometry(QtCore.QRect(170, 450, 1920, 20))
         self.line2.setFrameShape(QtWidgets.QFrame.HLine)
         self.line2.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line2.setObjectName("line2")
@@ -159,20 +159,25 @@ class Ui_Form(object):
         return(self.fname)
 
     def Graph(self):
-        mn.Graphical(mn.X,mn.Y)
+        mn.Graphical(mn.DataSet.A,mn.DataSet.B)
 
     def btn_SPIRMEN(self):
-        self.Label_OUTPUT(mn.Spirmen(mn.X,mn.Y))
+        self.Label_OUTPUT(mn.Spirmen(mn.DataSet.A,mn.DataSet.B))
         
     def btn_PEARSON(self):
-        self.Label_OUTPUT(mn.Pirson(mn.X,mn.Y))
+        self.Label_OUTPUT(mn.Pirson(mn.DataSet.A,mn.DataSet.B))
 
     def btn_Normalize(self):
         mn.miniMax(mn.X,mn.Y)
 
     def btn_Stat_Analysis(self):
-        self.Label_OUTPUT(mn.descriptiveX(mn.X))
-        self.Label_OUTPUT(mn.descriptiveY(mn.Y))
+       A=mn.descriptiveX(mn.DataSet.A)
+       B=mn.descriptiveY(mn.DataSet.B)
+       self.Label_OUTPUT("  ".join(A))
+       self.Label_OUTPUT("  ".join(B))
+       
+
+
 
     def btn_Shapiro(self):
         self.Label_OUTPUT(mn.Shapiro(mn.X,mn.Y))
@@ -209,6 +214,10 @@ class Ui_Form(object):
             self.DATA=str(f)
         else:
             self.DATA+='\n'+str(f)
+        self.Results.setText(self.DATA)
+
+    def STAT_OUTPUT(self,f):
+        self.DATA+='\n'+str(f)
         self.Results.setText(self.DATA)
 
 
