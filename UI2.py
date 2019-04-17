@@ -6,7 +6,7 @@
 #
 # WARNING! All changes made in this file will be lost!
 import sys
-import mainNEW as mn
+import Kernel as mn
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import *
 
@@ -168,7 +168,8 @@ class Ui_Form(object):
         self.Label_OUTPUT(mn.Pirson(mn.DataSet.A,mn.DataSet.B))
 
     def btn_Normalize(self):
-        mn.miniMax(mn.X,mn.Y)
+        mn.OCL_NORMALIZE(mn.X,mn.Y)
+        #mn.miniMax(mn.X,mn.Y)
 
     def btn_Stat_Analysis(self):
        A=mn.descriptiveX(mn.DataSet.A)
@@ -180,21 +181,22 @@ class Ui_Form(object):
 
 
     def btn_Shapiro(self):
-        self.Label_OUTPUT(mn.Shapiro(mn.X,mn.Y))
+        self.Label_OUTPUT(mn.Shapiro(mn.DataSet.A,mn.DataSet.B))
 
 
     def btn_One_Way(self):
-        mn.miniMax(mn.X,mn.Y)
+        mn.miniMax(mn.DataSet.A,mn.DataSet.A)
         #mn.OCL_NORMALIZE()
     
     def btn_KRUSKAL(self):
-        self.Label_OUTPUT(mn.KSSYMBOL(mn.X,mn.Y))
+        self.Label_OUTPUT(mn.KSSYMBOL(mn.DataSet.A,mn.DataSet.B))
 
     def median_Output(self):
         self.Label_OUTPUT(mn.med())
 
     def btn_normalTest(self):
-        self.Label_OUTPUT(mn.normalTest(mn.X))
+        self.Label_OUTPUT(mn.normalTest(mn.DataSet.A))
+        self.Label_OUTPUT(mn.normalTest(mn.DataSet.B))
 
     def btn_Apply(self):
         mn.A=int(self.X_column.text())
@@ -214,10 +216,6 @@ class Ui_Form(object):
             self.DATA=str(f)
         else:
             self.DATA+='\n'+str(f)
-        self.Results.setText(self.DATA)
-
-    def STAT_OUTPUT(self,f):
-        self.DATA+='\n'+str(f)
         self.Results.setText(self.DATA)
 
 
