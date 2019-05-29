@@ -196,72 +196,46 @@ def normalTest(X):
 
 
 
-def OCL_NORMALIZE(X,Y):
-    #global Y
+def OCL_NORMALIZE(X1,Y1):
     global arrX
     global arrY
-    
-    # =np.asarray(X)
-   
-    a_np=np.asarray(X)
-    b_np=np.asarray(Y)
-    Xmax=np.float(max(X))
-    Ymax=np.float(max(Y))
-    Xmin=np.float(min(X))
-    Ymin=np.float(min(Y))
-    denumX=Xmax-Xmin
-    denumY=Ymax-Ymin
-    
-    
-    DataSet=DataSets(list(a_np),list(b_np))
-    
+
     ctx = cl.create_some_context(0)
     queue = cl.CommandQueue(ctx)
 
-    
+    x=np.asarray(X1)
+    y=np.asarray(Y1)
+    x=np.float32(X1)
+    y=np.float32(Y1)
+    XX=cl_array.to_device(queue,x)
+    YY=cl_array.to_device(queue,y)
+    mf = cl.mem_flags
 
-    f2X = ElementwiseKernel(ctx,
-                        "float *x, float Xmin, float *c,float denumX",          
-                        "c[i] = x[i] - Xmin/denumX", "f2X")     #map(lambda el1: el1-av, array)
+    V=cl.array.empty_like(XX)
+    V1=cl.array.empty_like(YY)
+
+    Xmax=np.float(max(x))
+    Ymax=np.float(max(y))
+    Xmin=np.float(min(x))
+    Ymin=np.float(min(y))
+
+    miniMaxX = ElementwiseKernel(ctx, "float *x,float Xmax,float Xmin,float *v", 
+"v[i] = (x[i]-Xmin)/(Xmax-Xmin);", "sum")
+
+    miniMaxY = ElementwiseKernel(ctx, "float *y,float Ymax,float Ymin,float *v", 
+"v[i] = (y[i]-Ymin)/(Ymax-Ymin);", "sum")
+
+    AA=miniMaxX(XX,Xmax,Xmin,V)
+    BB=miniMaxY(YY,Ymax,Ymin,V1)
+
+    arrX.append(V)
+    arrY.append(V1)
+    print("V: {}".format(V))
+    print("V: {}".format(V1))
 
 
-    norm=ElementwiseKernel(ctx,"float Xmax,float Xmin,float *a_g,float *res1",
-    "res1[i]=(a_g[i]-Xmin)/(Xmax-Xmin)","norm")
-
-    
-
-    normY=ElementwiseKernel(ctx,"float Ymax,float Ymin,float *b_g,float *res2",
-    "res2[i]=(b_g[i]-Ymin)/(Ymax-Ymin)","norm")
-   
-    Carr1 = cl_array.to_device(queue,a_np)
-    Carr2 = cl_array.to_device(queue,b_np)
-    res1=cl.array.empty_like(Carr1)
-    res2=cl.array.empty_like(Carr2)
-    #Test1=f2X(Carr1,Xmin,res1,denumX)
-
-    for i in X:
-        f2X(Carr1,Xmin,res1,denumX)
-        #print(str(VALUE))
-    print (res1)
-    # norm(Xmax,Xmin,Carr1,res1)
-    # normY(Ymax,Ymin,Carr2,res2)
-    # Res=[]
-    #print(Test1)
-    # for i in X:
-    #     Res=norm(Xmax,Xmin,cl_array.to_device(queue,a_np),res1)
-    #     # arrX.append(res1)
-
-    # for i in Y:
-    #     arrY.append(res2)
-    # #global DataSet
-    # #return DataSet.A,DataSet.B
-    # listres1=list(res1)
-    # listres2=list(res2)
-    
-    
-    # return  DataSet.A,DataSet.B
-    #print(listres1)
-   # print(res2)
+    global DataSet
+    return DataSet.A,DataSet.B
 #--------------------------------------------------------------------
 
 
