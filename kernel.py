@@ -260,7 +260,6 @@ def digression(X,L,Average):
 #DATA READ AND CONVERT
 Xx=[]
 Yy=[]
-
 A=0
 B=0
 processedArr_1=[]
