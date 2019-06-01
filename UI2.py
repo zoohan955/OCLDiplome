@@ -168,8 +168,8 @@ class Ui_Form(object):
         self.Label_OUTPUT(mn.Pirson(mn.DataSet.A,mn.DataSet.B))
 
     def btn_Normalize(self):
-        mn.OCL_NORMALIZE(mn.X,mn.Y)
-        #mn.miniMax(mn.X,mn.Y)
+        # mn.OCL_NORMALIZE(mn.X,mn.Y)
+        mn.miniMax(mn.X,mn.Y)
 
     def btn_Stat_Analysis(self):
        A=mn.descriptiveX(mn.DataSet.A)
@@ -177,13 +177,9 @@ class Ui_Form(object):
        self.Label_OUTPUT("  ".join(A))
        self.Label_OUTPUT("  ".join(B))
        
-
-
-
     def btn_Shapiro(self):
         self.Label_OUTPUT(mn.Shapiro(mn.DataSet.A,mn.DataSet.B))
-
-
+        
     def btn_One_Way(self):
         mn.miniMax(mn.DataSet.A,mn.DataSet.A)
         #mn.OCL_NORMALIZE()
@@ -227,7 +223,6 @@ class Ui_Form(object):
     def SAVING(self):
         f=open("out.int","w")
         f.write(self.DATA)
-
 
 
 

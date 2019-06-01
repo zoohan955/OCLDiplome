@@ -7,6 +7,7 @@ import statistics
 import string
 import re
 import pyopencl as cl
+import time
 from pyopencl.elementwise import ElementwiseKernel
 from pyopencl.reduction import ReductionKernel
 import pyopencl.array
@@ -233,7 +234,10 @@ def OCL_NORMALIZE(X1,Y1):
     print("V: {}".format(V))
     print("V: {}".format(V1))
 
-
+    start_timer = time.time()
+    print('Timer: on')
+    time_working = time.time()-start_timer
+    print('\nTimer: stop; time: {} seconds'.format(round(time_working,3)))
     global DataSet
     return DataSet.A,DataSet.B
 #--------------------------------------------------------------------
@@ -311,6 +315,7 @@ def reduceData(file_name1,file_name2):
     global X
     X=[]
     for i in range(0,len(data1['DATA'])-1,int(maxStep/step1)):
+    # for i in range(0,len(data1['DATA'])-346,int(maxStep/step1)):
         el=data1['DATA'][i][A]
         X.append(float(el))
         
@@ -319,16 +324,17 @@ def reduceData(file_name1,file_name2):
     for i in range(0,len(data2['DATA'])-1,int(maxStep/step2)):
         el=data2['DATA'][i][B]
         Y.append(float(el))
-
+    print(len(X))
+    print(len(Y))
 
 
 def Graphical(A,B):
-    dataX=np.concatenate((A,A))
-    dataY=np.concatenate((B,B))
+    dataX=A
+    dataY=B
     bins=400
 
     #X
-    plt.subplot(2,2,3)
+    plt.subplot(2,2,2)
     plt.boxplot(dataX)
     plt.title('X Data')
     plt.grid(True)
@@ -339,7 +345,7 @@ def Graphical(A,B):
     plt.grid(True)
 
     #Y
-    plt.subplot(2,2,2)
+    plt.subplot(2,2,3)
     plt.hist(dataY,bins)
     plt.title('Y Data')
     plt.grid(True)
@@ -351,37 +357,4 @@ def Graphical(A,B):
     plt.grid(True)
     plt.show() 
 
-    #OLD_KERNEL
-    # mf = cl.mem_flags
-    # a_g = cl.Buffer(ctx, mf.READ_ONLY | mf.COPY_HOST_PTR, hostbuf=a_np)
-    # b_g = cl.Buffer(ctx, mf.READ_ONLY | mf.COPY_HOST_PTR, hostbuf=b_np)
-   
-    # prg = cl.Program(ctx, """
-    # __kernel void sum(
-    #     __global const float *a_g,__global const float *b_g, __global float *res_g, global float *Xmax)
-    # {
-    # int gid = get_global_id(0);
-       
-    #     res_g[gid]=b_g[gid]/Xmax;
-    # }
-    # """).build()
-
-
-    # res_g = cl.Buffer(ctx, mf.WRITE_ONLY, a_np.nbytes)
-    # prg.sum(queue, b_np.shape, None, a_g, b_g, res_g)
-
-    # res_np = np.empty_like(b_np)
-    # cl.enqueue_copy(queue, res_np, res_g)
-
-    # # Check on CPU with Numpy:
-    # #print(res_np,res_g)
-    # #print(a_np)
-    # #print(b_np)
-    # #print(list(res_np))
-    # Y=list(res_np)
-    # print(len(Y))
-    # print(len(X))
-    # #print(res_np - (a_np + b_np))
-    # #print(np.linalg.norm(res_np - (a_np + b_np)))
-    # #print(X)
-    # #print(Y)
+    
