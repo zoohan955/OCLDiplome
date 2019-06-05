@@ -21,8 +21,8 @@ arrY=[]
 arrX=[]
 
 
-a_np=np.asarray(X)
-b_np=np.asarray(Y)
+# a_np=np.asarray(X)
+# b_np=np.asarray(Y)
 
 class DataSets(object):
     def __init__(self,A=[],B=[]):
@@ -142,6 +142,7 @@ def miniMax(X1,Y1):
         arrY.append((i-Ymin)/(Ymax-Ymin))
 
     global DataSet
+   
     return DataSet.A,DataSet.B
     
 
@@ -231,8 +232,10 @@ def OCL_NORMALIZE(X1,Y1):
 
     arrX.append(V)
     arrY.append(V1)
-    print("V: {}".format(V))
-    print("V: {}".format(V1))
+    # print("V: {}".format(V))
+    # print("V: {}".format(V1))
+    print(arrX)
+    print(arrY)
 
     start_timer = time.time()
     print('Timer: on')

@@ -113,15 +113,10 @@ class Ui_Form(object):
         self.Load_Btn.setObjectName("Load_Btn")
         self.Load_Btn.clicked.connect(self.showDialog)
 
-
-
         self.Normilize_Btn=QtWidgets.QPushButton(Form)
         self.Normilize_Btn.setGeometry(QtCore.QRect(290, 470, 101, 23))
         self.Normilize_Btn.setObjectName("Normilize_Btn")
         self.Normilize_Btn.clicked.connect(self.btn_Normalize)
-
-
-
 
         self.Remove_btn = QtWidgets.QPushButton(Form)
         self.Remove_btn.setGeometry(QtCore.QRect(1400, 470, 91, 23))
@@ -149,6 +144,7 @@ class Ui_Form(object):
         self.Remove_btn.setText(_translate("Form", "Remove_Arrays"))
         self.Save_ResulsBtn.setText(_translate("Form","Save_RESULTS"))
         self.Normilize_Btn.setText(_translate("Form","Normalize Data"))
+        self.Apply_Button.setText(_translate("Form","Apply"))
         self.X_column.setText(_translate("Form","A"))
         self.Y_column.setText(_translate("form","B"))
 
