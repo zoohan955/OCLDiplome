@@ -40,8 +40,8 @@ def Pearson(X,Y):
     Xsum=sum(X)
     Ysum=sum(Y)
 
-    Mx=AVERAGE(Xsum,len1)
-    My=AVERAGE(Ysum,len1)
+    # Mx=AVERAGE(Xsum,len1)
+    # My=AVERAGE(Ysum,len1)
     #print(Mx,"___",My)
     dX=[]
     sumpowX=0
@@ -225,21 +225,22 @@ def OCL_NORMALIZE(X1,Y1):
     miniMaxY = ElementwiseKernel(ctx, "float *y,float Ymax,float Ymin,float *v", 
 "v[i] = (y[i]-Ymin)/(Ymax-Ymin);", "sum")
 
-    AA=miniMaxX(XX,Xmax,Xmin,V)
-    BB=miniMaxY(YY,Ymax,Ymin,V1)
+    start_timer = time.time()
+    print('Timer: on')
+    miniMaxX(XX,Xmax,Xmin,V)
+    miniMaxY(YY,Ymax,Ymin,V1)
 
-    arrX.append(V)
-    arrY.append(V1)
+    arrX = V.T.get()
+    arrY = V1.T.get()
   
     print(arrX)
     print(arrY)
 
-    start_timer = time.time()
-    print('Timer: on')
     time_working = time.time()-start_timer
     print('\nTimer: stop; time: {} seconds'.format(round(time_working,3)))
     global DataSet
-    return DataSet.A,DataSet.B
+    DataSet=DataSets(arrX,arrY)
+    return
 #--------------------------------------------------------------------
 
 
