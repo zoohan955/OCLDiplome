@@ -164,8 +164,8 @@ class Ui_Form(object):
         self.Label_OUTPUT(mn.Pirson(mn.DataSet.A,mn.DataSet.B))
 
     def btn_Normalize(self):
-        # mn.OCL_NORMALIZE(mn.X,mn.Y)
-        mn.miniMax(mn.X,mn.Y)
+        mn.OCL_NORMALIZE(mn.X,mn.Y)
+        # mn.miniMax(mn.X,mn.Y)
 
     def btn_Stat_Analysis(self):
        A=mn.descriptiveX(mn.DataSet.A)

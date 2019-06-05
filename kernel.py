@@ -14,6 +14,7 @@ import pyopencl.array
 import pyopencl.array as cl_array  # Import PyOpenCL Array (a Numpy array plus an OpenCL buffer object)
 
 
+
 pVar=0
 X=[]
 Y=[]
@@ -195,9 +196,6 @@ def KSSYMBOL(X,Y):
 def normalTest(X):
     return(scipy.stats.normaltest(X))
 
-
-
-
 def OCL_NORMALIZE(X1,Y1):
     global arrX
     global arrY
@@ -232,8 +230,7 @@ def OCL_NORMALIZE(X1,Y1):
 
     arrX.append(V)
     arrY.append(V1)
-    # print("V: {}".format(V))
-    # print("V: {}".format(V1))
+  
     print(arrX)
     print(arrY)
 
