@@ -17,7 +17,10 @@ class Ui_Form(object):
         self.DATA=self.DATA=''
         self.fname=self.fname=''
         self.Results=QtWidgets.QLabel(Form)
+        # self.Results=QtWidgets.QTextEdit(Form)
         self.Results.setGeometry(QtCore.QRect(190,50,1920,500))
+        # self.Results.setFont('SansSerif', 136)
+        self.Results.setFont(QtGui.QFont('SansSerif', 7)) 
         
         self.pushButton = QtWidgets.QPushButton(Form)
         self.pushButton.setGeometry(QtCore.QRect(50, 50, 75, 23))
@@ -164,8 +167,8 @@ class Ui_Form(object):
         self.Label_OUTPUT(mn.Pirson(mn.DataSet.A,mn.DataSet.B))
 
     def btn_Normalize(self):
-        mn.OCL_NORMALIZE(mn.X,mn.Y)
-        # mn.miniMax(mn.X,mn.Y)
+        # mn.OCL_NORMALIZE(mn.X,mn.Y)
+        mn.miniMax(mn.X,mn.Y)
 
     def btn_Stat_Analysis(self):
        A=mn.descriptiveX(mn.DataSet.A)
