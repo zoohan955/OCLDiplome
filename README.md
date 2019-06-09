@@ -57,7 +57,7 @@ apt-get install intel-opencl
 # Запуск приложения из командной строки
 
 ```bash 
-conda activate Название_окружения
+source activate Название_окружения
 python UI2.py
 ```
 
