@@ -58,7 +58,6 @@ apt-get install intel-opencl
 
 ```bash 
 source activate Название_окружения
-python UI2.py
 ```
 
 ```bash 
