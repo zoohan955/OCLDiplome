@@ -23,7 +23,7 @@ conda create -n Название_окружения python=3.7 anaconda
 5. Активаровать окружение: 
 
 ```bash
-conda activate Название_окружения
+source activate Название_окружения
 ```
 
 6. Установить Git: 
