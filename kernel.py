@@ -200,7 +200,7 @@ def OCL_NORMALIZE(X1,Y1):
     global arrX
     global arrY
 
-    ctx = cl.create_some_context(0)
+    ctx = cl.create_some_context()
     queue = cl.CommandQueue(ctx)
 
     x=np.asarray(X1)
