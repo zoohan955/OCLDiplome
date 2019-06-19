@@ -49,6 +49,9 @@ git clone https://github.com/zoohan955/OCLDiplome.git
 add-apt-repository ppa:intel-opencl/intel-opencl
 apt-get update
 apt-get install intel-opencl
+sudo apt install ocl-icd-libopencl1
+sudo apt install opencl-headers
+sudo apt install clinfo
 ```
 3. Установить Opencl Drivers (nvidia):
     
