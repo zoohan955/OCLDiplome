@@ -53,7 +53,7 @@ sudo apt install ocl-icd-libopencl1
 sudo apt install opencl-headers
 sudo apt install clinfo
 ```
-3. Установить Opencl Drivers (nvidia):
+3. Установить Opencl Drivers (nvidia) (ЕСЛИ НЕТ ДРАЙВЕРОВ НА РАБОЧЕЙ СТАНЦИИ):
     
 	https://www.nvidia.ru/Download/index.aspx?lang=ru
 
